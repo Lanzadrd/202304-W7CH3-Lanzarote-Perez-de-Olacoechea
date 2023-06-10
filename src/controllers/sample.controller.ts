@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
-import { SampleRepo } from '../repository/sample.repository.js';
+import { SneakersRepo } from '../repository/sample.repository.js';
 import createDebug from 'debug';
-const debug = createDebug('W6:SampleController');
+const debug = createDebug('W6:AstrySolutions-->');
 
-export class SampleController {
-  repo: SampleRepo;
+export class SneakersController {
+  repo: SneakersRepo;
+  static getAll: any;
   constructor() {
-    this.repo = new SampleRepo();
-    debug('Instantiated SampleController');
+    this.repo = new SneakersRepo();
+    debug('Instantiated SneakersController');
     debug(this.repo);
   }
 
@@ -15,12 +16,13 @@ export class SampleController {
     res.send(await this.repo.readAll());
   }
 
-  getById(req: Request, res: Response) {
-    res.send('Hello number: ' + req.params.id);
+  async getById(req: Request, res: Response) {
+    res.send(await this.repo.readById(req.params.id));
   }
 
-  post(req: Request, res: Response) {
-    res.send('Post Sample!: ' + req.body.user);
+  async post(req: Request, res: Response) {
+    await this.repo.create(req.body);
+    res.send('Añadido nuevo elemento a la lista: ' + req.body);
   }
 
   patch(req: Request, res: Response) {

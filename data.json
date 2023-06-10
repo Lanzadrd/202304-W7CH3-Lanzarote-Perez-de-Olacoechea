@@ -1,6 +1,32 @@
 [
   {
     "id": "1",
-    "user": "Pepe"
+    "name": "Dunk low SB x Travis Scott",
+    "sku": "CT5053-001",
+    "brand": "Nike"
+  },
+  {
+    "id": "2",
+    "name": "Jordan 1 High x Travis Scott Mocha ",
+    "sku": "CD4487-100",
+    "brand": "Jordan"
+  },
+  {
+    "id": "3",
+    "name": "Dunk low SB x Strangelove",
+    "sku": "CT2552-800",
+    "brand": "Nike"
+  },
+  {
+    "id": "4",
+    "name": "Dunk low SB Sean Cliver",
+    "sku": "DC9936-100",
+    "brand": "Nike"
+  },
+  {
+    "id": "5",
+    "name": "Jordan 1 High x Off-White UNC",
+    "sku": "AQ0818-148",
+    "brand": "Jordan"
   }
 ]
