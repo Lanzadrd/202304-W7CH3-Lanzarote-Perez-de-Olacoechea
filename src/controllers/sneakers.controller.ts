@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SneakersRepo } from '../repository/sample.repository.js';
+import { SneakersRepo } from '../repository/sneaker.repository.js';
 import createDebug from 'debug';
 const debug = createDebug('W6:AstrySolutions-->');
 
@@ -22,11 +22,12 @@ export class SneakersController {
 
   async post(req: Request, res: Response) {
     await this.repo.create(req.body);
-    res.send('Añadido nuevo elemento a la lista: ' + req.body);
+    res.send('Succesfully added new element to database');
   }
 
-  patch(req: Request, res: Response) {
-    res.send('Patch Sample!: ' + req.body.user);
+  async patch(req: Request, res: Response) {
+    await this.repo.update(req.body, req.params.id);
+    res.send('Patched element!');
   }
 
   deleteById(req: Request, res: Response) {

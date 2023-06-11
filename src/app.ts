@@ -20,12 +20,12 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ type: 'application/*+json' }));
 
-app.use((_req: Request, _res: Request, next: () => void) => {
+app.use((_req, _res, next) => {
   debug('Soy un middleware');
   next();
 });
 
-app.get('/', (req: Request, res) => {
+app.get('/', (req, res) => {
   res.send('Hello Express!');
 });
 
