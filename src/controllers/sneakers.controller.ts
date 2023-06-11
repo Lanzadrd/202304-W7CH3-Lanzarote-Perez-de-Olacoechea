@@ -9,7 +9,6 @@ export class SneakersController {
   constructor() {
     this.repo = new SneakersRepo();
     debug('Instantiated SneakersController');
-    debug(this.repo);
   }
 
   async getAll(req: Request, res: Response) {

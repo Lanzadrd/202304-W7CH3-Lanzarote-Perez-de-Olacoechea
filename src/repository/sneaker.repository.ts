@@ -46,6 +46,6 @@ export class SneakersRepo {
     const updatedData = data.map((item: sneaker) =>
       item.id === id ? { ...data, ...body } : item
     );
-    await fs.writeFile(file, updatedData, null);
+    await fs.writeFile(file, JSON.stringify(updatedData), null);
   }
 }
