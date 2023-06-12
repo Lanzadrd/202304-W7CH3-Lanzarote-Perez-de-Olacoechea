@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import createDebug from 'debug';
@@ -32,3 +32,10 @@ app.get('/', (req, res) => {
 app.use('/sneakers', sneakersRouter);
 app.use('/:id', sneakersRouter);
 app.use('/sneakers', sneakersRouter);
+app.use((error: Error, _req: Request, _res: Response, _next: NextFunction) => {
+  console.log('Error Middleware');
+  console.error(error);
+  _res.send({
+    error: error.message,
+  });
+});
