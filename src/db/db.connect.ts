@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
-import { user, PW, name } from '../config.js';
+// Import { user, PW, name } from '../config.js';
+
+const user = 'Lanzadrd';
+const PW = 'alfombradeverano1';
+const name = 'Curso_2023_04';
 
 export const dbConnect = () => {
   const uri = `mongodb+srv://${user}:${PW}@cluster0.slzair6.mongodb.net/${name}?retryWrites=true&w=majority`;
