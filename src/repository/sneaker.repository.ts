@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
-import createDebug from 'debug';
 import { Sneaker } from '../entities/sneaker';
 import { Repo } from './repo.js';
+import createDebug from 'debug';
 const debug = createDebug('W6:SampleRepo');
 
 const file = './data.json';
@@ -24,9 +24,9 @@ export class SneakersRepo implements Repo<Sneaker> {
 
   async readById(id: string) {
     const allData = await this.query();
-    allData.find((item: Sneaker) => item.id === id);
+    const requestedItem = allData.find((item: Sneaker) => item.id === id);
     if (!allData) throw new Error('Bad ID for the query');
-    return allData;
+    return requestedItem;
   }
 
   async create(body: Sneaker) {
