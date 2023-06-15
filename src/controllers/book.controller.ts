@@ -2,13 +2,30 @@ import { BooksRepo } from '../repository/book.mongo.repository.js';
 import createDebug from 'debug';
 import { Controller } from './controller.js';
 import { Book } from '../entities/book.js';
+import { NextFunction, Request, Response } from 'express';
+import { PayloadToken } from '../services/auth.js';
+import { UserRepo } from '../repository/user.mongo.repository.js';
 const debug = createDebug('---> W6:BookControler <---');
 
 export class BookController extends Controller<Book> {
   // eslint-disable-next-line no-unused-vars
-  constructor(protected repo = new BooksRepo()) {
+  constructor(protected repo: BooksRepo, private userRepo: UserRepo) {
     super();
     debug('Instantiated');
     debug(this.repo);
+  }
+
+  async post(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.body.tokenPayload as PayloadToken;
+      await this.userRepo.queryById(id);
+      delete req.body.tokenPayload;
+      req.body.owner = id;
+
+      res.status(201);
+      res.send(await this.repo.create(req.body));
+    } catch (error) {
+      next(error);
+    }
   }
 }

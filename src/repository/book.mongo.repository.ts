@@ -3,6 +3,7 @@ import { Book } from '../entities/book';
 import { Repo } from './repo.js';
 import { BookModel } from './book.mongo.model.js';
 import { HttpError } from '../types/httperror.js';
+import { User } from '../entities/user';
 const debug = createDebug('W6:SampleRepo');
 
 export class BooksRepo implements Repo<Book> {
@@ -23,8 +24,19 @@ export class BooksRepo implements Repo<Book> {
     return result;
   }
 
-  async create(body: Book) {
-    const result = await BookModel.create(body);
+  async search({
+    key,
+    value,
+  }: {
+    key: string;
+    value: unknown;
+  }): Promise<User[]> {
+    const result = await BookModel.find({ [key]: value }).exec();
+    return result;
+  }
+
+  async create(data: Omit<Book, 'id'>): Promise<Book> {
+    const result = await BookModel.create(data);
     console.log('-------MongoDB--(create)-----');
     console.log(`creating new Object.....`);
     return result;

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { HttpError } from '../types/http.error.js';
+import { HttpError } from '../types/httperror.js';
 import mongoose from 'mongoose';
+import debug from 'debug';
 
 export const errorHandler = (
   error: Error,
@@ -8,7 +9,7 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  console.log('Error Middleware');
+  debug('Error Middleware');
 
   if (error instanceof HttpError) {
     console.error(error.status, error.statusMessage, error.message);
@@ -32,7 +33,6 @@ export const errorHandler = (
     res.status(400);
     res.statusMessage = 'Bad request';
     res.send({
-      status: error.status + ' ' + error.statusMessage,
       error: error.message,
     });
   }

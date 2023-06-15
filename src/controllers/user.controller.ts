@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserRepo } from '../repository/user.mongo.repository.js';
 import createDebug from 'debug';
-import { AuthServices } from '../services/auth.js';
+import { AuthServices, PayloadToken } from '../services/auth.js';
 import { HttpError } from '../types/httperror.js';
+import { LoginResponse } from '../types/response.api.js';
 const debug = createDebug('---> W6:UserController <---');
 
 export class UserController {
@@ -64,10 +65,21 @@ export class UserController {
         );
       }
 
+      const payload: PayloadToken = {
+        id: data[0].id,
+        userName: data[0].userName,
+      };
+
+      const token = AuthServices.createJWT(payload);
+      const response: LoginResponse = {
+        token,
+        user: data[0],
+      };
+
       console.log(
         `--------(.)---(.)----User ${req.body.user} logged in!--------------`
       );
-      res.send(`Succesfully logged in!`);
+      res.send(response);
     } catch (error) {
       next(error);
     }
