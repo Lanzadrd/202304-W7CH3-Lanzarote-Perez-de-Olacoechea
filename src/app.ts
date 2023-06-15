@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import createDebug from 'debug';
-import { sneakersRouter } from './routers/sample.router.js';
+import { sneakersRouter } from './routers/sneaker.router.js';
 import { filmRouter } from './routers/film.router.js';
 import { userRouter } from './routers/user.router.js';
 const debug = createDebug('W6:App');

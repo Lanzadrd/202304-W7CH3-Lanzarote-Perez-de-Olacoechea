@@ -3,13 +3,12 @@ import { FilmController } from '../controllers/film.controller.js';
 import { FilmsRepo } from '../repository/film.mongo.repository.js';
 import createDebug from 'debug';
 import { AuthInterceptor } from '../middleware/auth.interceptor.js';
-import { Film } from '../entities/film.js';
-import { Repo } from '../repository/repo.js';
+import { UserRepo } from '../repository/user.mongo.repository.js';
 
 const debug = createDebug('W6:BookRouter');
-const repo: Repo<Film> = new FilmsRepo();
+const repo = new FilmsRepo();
 const auth = new AuthInterceptor();
-const controller = new FilmController(repo);
+const controller = new FilmController(repo, new UserRepo());
 export const filmRouter = createRouter();
 
 debug('execued');
