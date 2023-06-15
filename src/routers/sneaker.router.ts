@@ -2,9 +2,11 @@ import { Router as createRouter } from 'express';
 import { SneakersController } from '../controllers/sneakers.controller.js';
 import { SneakersRepo } from '../repository/sneaker.repository.js';
 import createDebug from 'debug';
+import { Sneaker } from '../entities/sneaker.js';
+import { Repo } from '../repository/repo.js';
 
 const debug = createDebug('W6:SneakerRouter');
-const repo: SneakersRepo = new SneakersRepo();
+const repo: Repo<Sneaker> = new SneakersRepo() as unknown as Repo<Sneaker>;
 const controller = new SneakersController(repo);
 export const sneakersRouter = createRouter();
 debug('executed');
