@@ -26,7 +26,7 @@ export class SneakersRepo implements Repo<Sneaker> {
     const allData = await this.query();
     const requestedItem = allData.find((item: Sneaker) => item.id === id);
     if (!allData) throw new Error('Bad ID for the query');
-    return requestedItem;
+    return requestedItem as Sneaker;
   }
 
   async create(body: Sneaker) {
