@@ -1,8 +1,8 @@
 import { User } from './user';
 
-export type Book = {
+export type Film = {
   id: string;
-  author: string;
+  director: string;
   title: string;
   owner: User;
 };

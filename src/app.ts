@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import createDebug from 'debug';
 import { sneakersRouter } from './routers/sample.router.js';
-import { bookRouter } from './routers/book.router.js';
+import { filmRouter } from './routers/film.router.js';
 import { userRouter } from './routers/user.router.js';
 const debug = createDebug('W6:App');
 
@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/sneakers', sneakersRouter);
-app.use('/books', bookRouter);
+app.use('/books', filmRouter);
 app.use('/user', userRouter);
 
 app.use((error: Error, _req: Request, _res: Response, _next: NextFunction) => {

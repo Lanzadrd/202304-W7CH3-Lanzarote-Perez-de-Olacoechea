@@ -1,13 +1,13 @@
 import { Schema, model } from 'mongoose';
-import { Book } from '../entities/book.js';
+import { Film } from '../entities/film.js';
 
-const bookSchema = new Schema<Book>({
+const filmSchema = new Schema<Film>({
   title: {
     type: String,
     required: true,
     unique: true,
   },
-  author: {
+  director: {
     type: String,
     required: true,
   },
@@ -17,7 +17,7 @@ const bookSchema = new Schema<Book>({
   },
 });
 
-bookSchema.set('toJSON', {
+filmSchema.set('toJSON', {
   transform(_document, returnedObject) {
     returnedObject.id = returnedObject._id;
     delete returnedObject.__v;
@@ -26,4 +26,4 @@ bookSchema.set('toJSON', {
   },
 });
 
-export const BookModel = model('Book', bookSchema, 'Books');
+export const FilmModel = model('Film', filmSchema, 'Films');

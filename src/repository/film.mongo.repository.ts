@@ -1,24 +1,23 @@
 import createDebug from 'debug';
-import { Book } from '../entities/book';
+import { Film } from '../entities/film';
 import { Repo } from './repo.js';
-import { BookModel } from './book.mongo.model.js';
+import { FilmModel } from './film.mongo.model.js';
 import { HttpError } from '../types/httperror.js';
-import { User } from '../entities/user';
 const debug = createDebug('W6:SampleRepo');
 
-export class BooksRepo implements Repo<Book> {
+export class FilmsRepo implements Repo<Film> {
   constructor() {
     debug('Books Repo');
   }
 
-  async query(): Promise<Book[]> {
+  async query(): Promise<Film[]> {
     console.log('-------MongoDB-------');
-    const allData = await BookModel.find().exec();
+    const allData = await FilmModel.find().exec();
     return allData;
   }
 
-  async readById(id: string): Promise<Book> {
-    const result = await BookModel.findById(id).exec();
+  async queryById(id: string): Promise<Film> {
+    const result = await FilmModel.findById(id).exec();
     console.log('-------MongoDB-(ID)------');
     if (result === null) throw new Error('Bad ID for the query');
     return result;
@@ -30,28 +29,30 @@ export class BooksRepo implements Repo<Book> {
   }: {
     key: string;
     value: unknown;
-  }): Promise<User[]> {
-    const result = await BookModel.find({ [key]: value }).exec();
+  }): Promise<Film[]> {
+    const result = await FilmModel.find({ [key]: value }).exec();
     return result;
   }
 
-  async create(data: Omit<Book, 'id'>): Promise<Book> {
-    const result = await BookModel.create(data);
+  async create(data: Omit<Film, 'id'>): Promise<Film> {
+    const result = await FilmModel.create(data);
     console.log('-------MongoDB--(create)-----');
     console.log(`creating new Object.....`);
     return result;
   }
 
-  async update(body: Book, id: string) {
-    const newBook = BookModel.findByIdAndUpdate(id, body, { new: true }).exec();
+  async update(id: string, data: Partial<Film>): Promise<Film> {
+    const newFilm = await FilmModel.findByIdAndUpdate(id, data, {
+      new: true,
+    }).exec();
     console.log('-------MongoDB--(update)-----');
-    if (newBook === null)
+    if (newFilm === null)
       throw new HttpError(404, 'Not found', 'Bad ID for the update');
-    return newBook;
+    return newFilm;
   }
 
   async delete(id: string): Promise<void> {
-    const result = BookModel.findByIdAndDelete(id).exec();
+    const result = FilmModel.findByIdAndDelete(id).exec();
     console.log('-------MongoDB--(delete)-----');
     console.log(`deleteing ID: ${id}`);
     if (result === null)

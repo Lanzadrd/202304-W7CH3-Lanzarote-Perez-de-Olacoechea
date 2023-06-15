@@ -23,9 +23,11 @@ export class UserRepo implements Partial<Repo<User>> {
     return result;
   }
 
-  async queryById(id: string): Promise<Book> {
+  async queryById(id: string): Promise<User> {
     const result = await UserModel.findById(id).exec();
-    if (result === null) throw new HttpError(404, 'Not found');
+    if (result === null)
+      throw new HttpError(404, 'Not found', 'Bad ID for the query');
+    return result;
   }
 
   async create(data: Omit<User, 'id'>): Promise<User> {

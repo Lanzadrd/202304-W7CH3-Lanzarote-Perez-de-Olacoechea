@@ -1,18 +1,17 @@
-import { BooksRepo } from '../repository/book.mongo.repository.js';
+import { FilmsRepo } from '../repository/film.mongo.repository.js';
 import createDebug from 'debug';
 import { Controller } from './controller.js';
-import { Book } from '../entities/book.js';
+import { Film } from '../entities/film.js';
 import { NextFunction, Request, Response } from 'express';
 import { PayloadToken } from '../services/auth.js';
 import { UserRepo } from '../repository/user.mongo.repository.js';
 const debug = createDebug('---> W6:BookControler <---');
 
-export class BookController extends Controller<Book> {
+export class FilmController extends Controller<Film> {
   // eslint-disable-next-line no-unused-vars
-  constructor(protected repo: BooksRepo, private userRepo: UserRepo) {
+  constructor(protected repo: FilmsRepo, private userRepo: UserRepo) {
     super();
     debug('Instantiated');
-    debug(this.repo);
   }
 
   async post(req: Request, res: Response, next: NextFunction) {
