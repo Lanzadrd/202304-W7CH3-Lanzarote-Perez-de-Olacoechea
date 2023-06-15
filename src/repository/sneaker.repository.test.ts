@@ -17,7 +17,7 @@ describe('Given sample repo class', () => {
       (fs.readFile as jest.Mock).mockResolvedValueOnce(
         JSON.stringify(mockSample)
       );
-      const result = await repo.readById('1');
+      const result = await repo.queryById('1');
       expect(fs.readFile).toHaveBeenCalled();
       expect(result).toEqual(mockSample);
     });

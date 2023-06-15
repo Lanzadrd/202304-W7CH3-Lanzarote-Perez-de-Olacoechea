@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { SneakersController } from './sneakers.controller';
-import { SneakersRepo } from '../repository/sneaker.repository';
+import { Sneaker } from '../entities/sneaker';
+import { Repo } from '../repository/repo';
 
 jest.mock('fs/promises');
 
@@ -8,11 +9,11 @@ describe('Given sneaker controller', () => {
   describe('When its instanciated', () => {
     const mockRepo = {
       query: jest.fn(),
-      readById: jest.fn(),
+      queryByI: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
-    } as unknown as SneakersRepo;
+    } as unknown as Repo<Sneaker>;
     const req = {} as Request;
     const res = {
       send: jest.fn(),
@@ -28,7 +29,7 @@ describe('Given sneaker controller', () => {
     test('Then method getById should...', async () => {
       await controller.getById(req, res, next);
       expect(res.send).toHaveBeenCalled();
-      expect(mockRepo.readById).toHaveBeenCalled();
+      expect(mockRepo.queryById).toHaveBeenCalled();
     });
     test('Then method patch should...', async () => {
       await controller.patch(req, res, next);
