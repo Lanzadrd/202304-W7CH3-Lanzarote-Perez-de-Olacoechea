@@ -2,16 +2,14 @@ import fs from 'fs/promises';
 import { Sneaker } from '../entities/sneaker';
 import { Repo } from './repo.js';
 import createDebug from 'debug';
-const debug = createDebug('W6:SampleRepo');
 
+const debug = createDebug('W6:SampleRepo');
 const file = './data.json';
 
-export class SneakersRepo implements Repo<Sneaker> {
-  getAll: any;
-  getById: any;
-  search: any;
-  post: any;
-  patch: any;
+const createID = (): Sneaker['id'] =>
+  Math.trunc(Math.random() * 1_000_000).toString();
+
+export class SneakersRepo implements Omit<Repo<Sneaker>, 'search'> {
   constructor() {
     debug('Sneakers Repo');
   }
@@ -22,26 +20,27 @@ export class SneakersRepo implements Repo<Sneaker> {
     return aData;
   }
 
-  async readById(id: string) {
+  async queryById(id: string) {
     const allData = await this.query();
-    const requestedItem = allData.find((item: Sneaker) => item.id === id);
-    if (!allData) throw new Error('Bad ID for the query');
-    return requestedItem as Sneaker;
+    const requestedItem = allData.find((item) => item.id === id);
+    if (!requestedItem) throw new Error('Bad ID for the query');
+    return requestedItem;
   }
 
-  async create(body: Sneaker) {
-    let allData = await this.query(); // Tiene que ser string / buffer / typedArray
-    allData = [...allData, body];
-    const updatedData = JSON.stringify(allData, null, 2);
-    await fs.writeFile(file, updatedData, { encoding: 'utf-8' });
+  async create(data: Omit<Sneaker, 'id'>) {
+    const allData = await this.query(); // Tiene que ser string / buffer / typedArray
+    const newSneaker: Sneaker = { ...data, id: createID() };
+    const result = JSON.stringify([...allData, newSneaker]);
+    await fs.writeFile(file, result, { encoding: 'utf8' });
+    return newSneaker;
   }
 
-  async update(body: Sneaker, id: string) {
-    const data = this.query() as unknown as Sneaker[];
-    const newSneaker: Sneaker = {} as Sneaker;
-    const updatedData = data.map((item: Sneaker) => {
+  async update(id: string, data: Partial<Sneaker>) {
+    const alldata = await this.query();
+    let newSneaker: Sneaker = {} as Sneaker;
+    const updatedData = alldata.map((item) => {
       if (item.id === id) {
-        const newSneaker = { ...item, ...body };
+        newSneaker = { ...item, ...data };
         return newSneaker;
       }
 

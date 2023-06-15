@@ -27,7 +27,7 @@ export abstract class Controller<T extends { id: string | number }> {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       res.status(200);
-      res.send(await this.repo.readById(req.params.id));
+      res.send(await this.repo.queryById(req.params.id));
     } catch (error) {
       next(error);
     }
@@ -45,7 +45,7 @@ export abstract class Controller<T extends { id: string | number }> {
 
   async patch(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.repo.update(req.body, req.params.id);
+      await this.repo.update(req.params.id, req.body);
       res.status(202);
       res.send('Succesfully patched element!');
     } catch (error) {
